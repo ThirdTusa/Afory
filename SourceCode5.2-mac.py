@@ -2,6 +2,7 @@
 # Made by Tuseloryy
 # My social: https://tuseloryy.card.co
 # Python 3.12
+# For version 2026.5.2:
 # SOURCE CODE:
 
 import tkinter as tk
