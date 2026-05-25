@@ -1,0 +1,12 @@
+{
+  'format': 'bestaudio/best',
+  'ffmpeg_location': resource_path("assets/ffmpeg/ffmpeg"),
+  'outtmpl': f'/Users/{username}/Afory/downloads/%(title)s.%(ext)s',
+  'postprocessors': [{
+    'key': 'FFmpegExtractAudio',
+    'preferredcodec': 'mp3',
+    'preferredquality': '192',
+  }],
+  'noplaylist': True,
+  'cookiesfrombrowser': ('chrome', 'firefox', 'edge', 'opera')
+}
