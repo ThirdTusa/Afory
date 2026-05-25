@@ -8,5 +8,8 @@
     'preferredquality': '192',
   }],
   'noplaylist': True,
-  'cookiesfrombrowser': ('chrome', 'firefox', 'edge', 'opera')
+  'cookiefile': resource_path("assets/yt_cookies.txt"),
+  'http_headers': {
+    'User-Agent': 'Mozilla/5.0'
+  }
 }
