@@ -1,6 +1,6 @@
 {
   'format': 'bestaudio/best',
-  'ffmpeg_location': resource_path("assets/ffmpeg/ffmpeg"),
+  'ffmpeg_location': resource_path("assets/ffmpeg/bin"),
   'outtmpl': f'C:/Users/{username}/Afory/downloads/%(title)s.%(ext)s',
   'postprocessors': [{
     'key': 'FFmpegExtractAudio',
