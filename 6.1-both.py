@@ -99,7 +99,7 @@ class ConsoleRedirect(QtCore.QObject):
                 return self.original_stream.fileno()
             except Exception:
                 pass
-        return -1  # Возвращаем кастомный дескриптор, чтобы yt_dlp/ffmpeg не падали
+        return -1
 
     def isatty(self):
         if self.original_stream and hasattr(self.original_stream, 'isatty'):
@@ -141,26 +141,23 @@ class YTDLPWorker(QtCore.QObject):
         self.timer.timeout.connect(self.check_queue)
 
     def run(self):
-        # Запускаем yt_dlp в отдельном процессе
         self.process = Process(
             target=ytdlp_download_process,
             args=(self.url, self.ydl_opts, self.result_queue, self.log_queue)
         )
         self.process.start()
-        self.timer.start(100)  # Проверяем очередь каждые 100мс
+        self.timer.start(100)
 
     def check_queue(self):
         """Проверяем результаты из очереди"""
         try:
-            # Проверяем логи
             while not self.log_queue.empty():
                 msg_type, data = self.log_queue.get_nowait()
                 if msg_type == "progress":
                     self.log.emit(f"{self.download_t} {data}")
                 elif msg_type == "done":
                     pass
-
-            # Проверяем результат
+                    
             if not self.result_queue.empty():
                 result = self.result_queue.get_nowait()
 
@@ -242,7 +239,6 @@ class DownloadManager(QtCore.QObject):
         worker.deleteLater()
         thread.deleteLater()
 
-        # запускаем следующую задачу
         self._try_start_next()
 
     def clear(self):
