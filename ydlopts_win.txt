@@ -11,5 +11,19 @@
   'cookiefile': resource_path("assets/yt_cookies.txt"),
   'http_headers': {
     'User-Agent': 'Mozilla/5.0'
+  },
+  'quiet': True,
+  'no_warnings': True,
+  'logger': QuietLogger(),
+  'subprocess_runner_kwargs': {
+     'stdout': subprocess.DEVNULL,
+     'stderr': subprocess.DEVNULL,
+     'stdin': subprocess.DEVNULL,
+  },
+  'external_downloader_args': {
+     'ffmpeg': ['-loglevel', 'panic', '-nostdin']
+  },
+  'postprocessor_args': {
+     'ffmpeg': ['-loglevel', 'panic', '-nostdin']
   }
 }
