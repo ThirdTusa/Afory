@@ -44,7 +44,6 @@ def resource_path(filename):
     return os.path.join(base_path, filename)
 
 def ytdlp_download_process(url, ydl_opts, result_queue, log_queue):
-    """Отдельный процесс для загрузки с yt_dlp"""
     try:
         def hook(d):
             if d.get("status") == "downloading":
@@ -151,13 +150,15 @@ class YTDLPWorker(QtCore.QObject):
     def check_queue(self):
         """Проверяем результаты из очереди"""
         try:
+            # Проверяем логи
             while not self.log_queue.empty():
                 msg_type, data = self.log_queue.get_nowait()
                 if msg_type == "progress":
                     self.log.emit(f"{self.download_t} {data}")
                 elif msg_type == "done":
                     pass
-                    
+
+            # Проверяем результат
             if not self.result_queue.empty():
                 result = self.result_queue.get_nowait()
 
@@ -239,6 +240,7 @@ class DownloadManager(QtCore.QObject):
         worker.deleteLater()
         thread.deleteLater()
 
+        # запускаем следующую задачу
         self._try_start_next()
 
     def clear(self):
@@ -404,7 +406,7 @@ class DragButton(QtWidgets.QPushButton):
         drag = QtGui.QDrag(self)
 
         mime_data = QtCore.QMimeData()
-        mime_data.setText(os.path.basename(self.path))
+        mime_data.setText(self.path)
 
         drag.setMimeData(mime_data)
 
@@ -476,8 +478,7 @@ class Mainwindow(QtWidgets.QMainWindow):
         if self.settings.get("font"):
             self.main_font.setFamily(self.settings.get("font", "Comic Sans MS"))
 
-        if build_os == "Windows":
-            self.setWindowIcon(QtGui.QIcon(resource_path("assets/icon.ico")))
+        self.setWindowIcon(QtGui.QIcon(resource_path("assets/icon.ico")))
 
         self.setFixedSize(825, 590)
         pygame.mixer.music.set_volume(self.settings.get("volume", 0.7))
@@ -1548,11 +1549,6 @@ class Mainwindow(QtWidgets.QMainWindow):
                     return
 
                 playlist = self.playlists[self.current_playlist_name]
-
-                if build_os == "Darwin":
-                    source_path = f"/Users/{username}/Afory/downloads/{source_path}"
-                else:
-                    source_path = f"C:/Users/{username}/Afory/downloads/{source_path}"
 
                 old_index = playlist.index(source_path)
                 new_index = playlist.index(target_path)
