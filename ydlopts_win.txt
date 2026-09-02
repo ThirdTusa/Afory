@@ -1,29 +1,25 @@
 {
-  'format': 'bestaudio/best',
-  'ffmpeg_location': resource_path("assets/ffmpeg/bin"),
-  'outtmpl': f'C:/Users/{username}/Afory/downloads/%(title)s.%(ext)s',
-  'postprocessors': [{
-    'key': 'FFmpegExtractAudio',
-    'preferredcodec': 'mp3',
-    'preferredquality': '192',
-  }],
-  'noplaylist': True,
-  'cookiefile': resource_path("assets/yt_cookies.txt"),
-  'http_headers': {
-    'User-Agent': 'Mozilla/5.0'
-  },
-  'quiet': True,
-  'no_warnings': True,
-  'logger': QuietLogger(),
-  'subprocess_runner_kwargs': {
-     'stdout': subprocess.DEVNULL,
-     'stderr': subprocess.DEVNULL,
-     'stdin': subprocess.DEVNULL,
-  },
-  'external_downloader_args': {
-     'ffmpeg': ['-loglevel', 'panic', '-nostdin']
-  },
-  'postprocessor_args': {
-     'ffmpeg': ['-loglevel', 'panic', '-nostdin']
-  }
+    'format': 'bestaudio/best',
+
+    'outtmpl': os.path.join(
+        self.save_folder,
+        '%(title)s.%(ext)s'
+    ),
+
+    'ffmpeg_location': resource_path(
+        "assets/ffmpeg/bin"
+    ),
+
+    'noplaylist': True,
+
+    'postprocessors': [{
+        'key': 'FFmpegExtractAudio',
+        'preferredcodec': 'mp3',
+        'preferredquality': '192',
+    }],
+
+    'quiet': True,
+    'no_warnings': True,
+
+    'logger': QuietLogger(),
 }
